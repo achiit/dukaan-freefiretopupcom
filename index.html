@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DiamondDock – Free Fire Top-Up</title>
+<style>
+:root{--bg:#f3f6fc;--card:#fff;--ink:#0f2347;--mut:#5b6b8c;--pri:#1457d6;--pri2:#0b2f7a;--line:#d9e1f0;--ok:#12a150;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1426;--card:#142038;--ink:#eaf0ff;--mut:#9fb0d3;--line:#25365a;--pri:#4b86ff}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 "Hind Siliguri","Segoe UI",system-ui,sans-serif;padding-bottom:90px}
+.wrap{max-width:560px;margin:auto;padding:0 14px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:20px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#1457d6,#19c3ff);display:grid;place-items:center;color:#fff;font-style:normal;font-size:16px}
+.logo span{color:var(--pri)}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:8px;padding:9px 18px;font-weight:700}
+.btn:focus-visible,.pack:focus-visible,.game:focus-visible,nav button:focus-visible,input:focus-visible{outline:3px solid #ffb400;outline-offset:2px}
+.notice{margin:14px 0;display:flex;border-radius:12px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+.notice b{background:var(--pri);color:#fff;padding:10px 14px;white-space:nowrap}
+.notice p{margin:0;padding:10px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--mut)}
+.hero{border-radius:16px;padding:26px 20px;color:#fff;background:radial-gradient(circle at 85% 20%,#19c3ff 0,transparent 45%),linear-gradient(135deg,#0b2f7a,#1457d6);position:relative;overflow:hidden}
+.hero h1{margin:0 0 6px;font-size:28px;line-height:1.15;max-width:12em}
+.hero p{margin:0 0 16px;opacity:.9}
+.hero .gem{position:absolute;right:-6px;bottom:-14px;font-size:110px;opacity:.9;transform:rotate(12deg)}
+.hero .btn{background:#fff;color:var(--pri2)}
+h2{font-size:22px;margin:26px 0 12px;text-align:center}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.game{background:var(--card);border:1px solid var(--line);border-bottom:3px solid var(--pri);border-radius:12px;padding:0 0 8px;text-align:center;font-weight:600;font-size:13px;color:var(--ink)}
+.game .art{aspect-ratio:1;border-radius:10px 10px 0 0;display:grid;place-items:center;font-size:40px;margin-bottom:6px;color:#fff}
+.game[aria-pressed=true]{box-shadow:0 0 0 3px var(--pri)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:14px;overflow:hidden}
+.panel h3{margin:0;padding:14px 16px;font-size:19px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.panel h3 em{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-size:15px}
+.body{padding:14px}
+.packs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pack{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:14px 6px;text-align:center;color:var(--ink);font-weight:600;position:relative}
+.pack small{display:block;color:var(--pri);font-weight:700;font-size:15px;margin-top:3px}
+.pack[aria-pressed=true]{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,var(--card))}
+.pack[aria-pressed=true]::after{content:"✓";position:absolute;top:0;left:0;background:var(--pri);color:#fff;width:24px;height:22px;border-radius:9px 0 9px 0;font-size:13px}
+label{display:block;font-weight:600;margin-bottom:8px}
+input[type=text]{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pay button{padding:12px 4px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-weight:700}
+.pay button[aria-pressed=true]{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,var(--card))}
+.sum{display:flex;justify-content:space-between;padding:6px 0;color:var(--mut)}
+.sum b{color:var(--ink)}
+.buy{width:100%;padding:15px;font-size:17px;margin-top:10px;border-radius:10px}
+.buy:disabled{opacity:.45;cursor:not-allowed}
+#msg{margin-top:12px;padding:12px;border-radius:8px;display:none;font-weight:600}
+#msg.ok{display:block;background:#e3f6ea;color:#0b6b36}
+#msg.err{display:block;background:#fde8e8;color:#a02020}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);border-radius:20px 20px 0 0;padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+nav div{max-width:560px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav button{background:none;border:0;padding:10px 0;color:var(--mut);font-size:12px;font-weight:600}
+nav button span{display:block;font-size:22px}
+nav button.on{color:var(--pri)}
+.fab{position:fixed;right:16px;bottom:96px;width:56px;height:56px;border-radius:50%;background:var(--pri);color:#fff;border:0;font-size:24px;box-shadow:0 0 0 6px color-mix(in srgb,var(--pri) 25%,transparent);z-index:7}
+footer{text-align:center;color:var(--mut);font-size:12px;margin:24px 0}
+@media (prefers-reduced-motion:no-preference){.hero .gem{animation:fl 4s ease-in-out infinite}@keyframes fl{50%{transform:rotate(12deg) translateY(-8px)}}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="logo"><i>◆</i>Diamond<span>Dock</span></div>
+ <button class="btn" id="login">Login</button>
+</div></header>
+
+<main class="wrap" id="home">
+ <div class="notice"><b>NOTICE</b><p>আমাদের ওয়েবসাইটে দিনরাত ২৪ ঘণ্টা অর্ডার করা যায়।</p></div>
+ <section class="hero">
+  <h1>Free Fire diamonds in seconds</h1>
+  <p>Enter your Player ID. Pay. Diamonds arrive automatically.</p>
+  <button class="btn" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">Top up now</button>
+  <div class="gem" aria-hidden="true">💎</div>
+ </section>
+
+ <h2>FF</h2>
+ <div class="games" id="games"></div>
+
+ <div id="store">
+  <section class="panel" id="rechargePanel">
+   <h3><em>1</em>Select Recharge</h3>
+   <div class="body"><div class="packs" id="packs"></div></div>
+  </section>
+  <section class="panel">
+   <h3><em>2</em>Account Info</h3>
+   <div class="body">
+    <label for="uid">এখানে গেমের আইডি কোড দিন</label>
+    <input type="text" id="uid" inputmode="numeric" autocomplete="off" placeholder="Player ID (UID)">
+   </div>
+  </section>
+  <section class="panel">
+   <h3><em>3</em>Select one option</h3>
+   <div class="body"><div class="pay" id="pay"></div></div>
+  </section>
+  <section class="panel">
+   <h3><em>4</em>Order</h3>
+   <div class="body">
+    <div class="sum"><span>Item</span><b id="sItem">—</b></div>
+    <div class="sum"><span>Player ID</span><b id="sUid">—</b></div>
+    <div class="sum"><span>Payment</span><b id="sPay">—</b></div>
+    <div class="sum"><span>Total</span><b id="sTotal">BDT 0</b></div>
+    <button class="btn buy" id="buy" disabled>Buy now</button>
+    <div id="msg" role="status"></div>
+   </div>
+  </section>
+ </div>
+ <footer>© DiamondDock. Not affiliated with Garena or Free Fire.</footer>
+</main>
+
+<button class="fab" aria-label="Contact support" id="fab">🎧</button>
+<nav><div>
+ <button class="on" data-go="top"><span>🏠</span>Home</button>
+ <button data-go="tut"><span>▶️</span>Tutorial</button>
+ <button data-go="store"><span>⊞</span>TopUp</button>
+ <button data-go="support"><span>🎧</span>Contact Us</button>
+</div></nav>
+
+<script>
+// ===== EDIT YOUR PRODUCTS & PRICES HERE =====
+var CATALOG = {
+ "FF TopUp (BD)": {icon:"🧑‍💼",color:"#1457d6",packs:[["Weekly",155],["Monthly",770],["25 Diamond",20],["50 Diamond",35],["115 Diamond",79],["240 Diamond",156],["355 Diamond",237],["505 Diamond",336],["610 Diamond",395],["850 Diamond",558],["1090 Diamond",716],["1240 Diamond",795],["2530 Diamond",1590],["5060 Diamond",3180]]},
+ "FF - 200 Like": {icon:"👍",color:"#0e7ad1",packs:[["200 Like / day",50],["1000 Like",200]]},
+ "Weekly Lite (BD Server)": {icon:"🎫",color:"#2b4fc4",packs:[["1x Weekly Lite",40],["2x Weekly Lite",80],["3x Weekly Lite",120],["5x Weekly Lite",200]]},
+ "Weekly/Monthly Offer": {icon:"🏆",color:"#5a3fd0",packs:[["Weekly",155],["2X Weekly",310],["3X Weekly",465],["5X Weekly",775],["Monthly",770],["2X Monthly",1540],["1Weekly + 1Monthly",925],["4Weekly + 1Monthly",1390]]},
+ "New Level Up Pass": {icon:"🎁",color:"#0b8f9c",packs:[["Level Up Pass",160]]},
+ "Indonesia Server (UID)": {icon:"🦊",color:"#c2362e",packs:[["5 Diamond (Indo)",10],["50 Diamond (Indo)",65],["70 Diamond (Indo)",90],["100 Diamond (Indo)",130],["140 Diamond (Indo)",180],["355 Diamond (Indo)",445],["720 Diamond (Indo)",890],["7290 Diamond (Indo)",8800],["Weekly (Indo)",255],["Monthly (Indo)",820]]}
+};
+var PAYMENTS = ["bKash","Nagad","Rocket"];
+var SUPPORT_LINK = "https://t.me/your_support"; // change to your Telegram
+// ============================================
+var game, pack, pay;
+var $ = function(id){return document.getElementById(id)};
+function bdt(n){return "BDT "+n}
+function renderGames(){
+ var h="";Object.keys(CATALOG).forEach(function(k){var g=CATALOG[k];
+  h+='<button class="game" aria-pressed="'+(k===game)+'" data-k="'+k+'"><div class="art" style="background:linear-gradient(160deg,'+g.color+',#071a45)">'+g.icon+'</div>'+k+'</button>'});
+ $("games").innerHTML=h;
+}
+function renderPacks(){
+ var h="";CATALOG[game].packs.forEach(function(p,i){
+  h+='<button class="pack" aria-pressed="'+(pack===i)+'" data-i="'+i+'">'+p[0]+'<small>'+bdt(p[1])+'</small></button>'});
+ $("packs").innerHTML=h;
+}
+function renderPay(){
+ $("pay").innerHTML=PAYMENTS.map(function(p){return '<button aria-pressed="'+(pay===p)+'" data-p="'+p+'">'+p+'</button>'}).join("");
+}
+function summary(){
+ var p=pack!=null?CATALOG[game].packs[pack]:null;
+ $("sItem").textContent=p?game+" · "+p[0]:"—";
+ $("sUid").textContent=$("uid").value.trim()||"—";
+ $("sPay").textContent=pay||"—";
+ $("sTotal").textContent=bdt(p?p[1]:0);
+ $("buy").disabled=!(p&&/^\d{6,14}$/.test($("uid").value.trim())&&pay);
+}
+function pick(k){game=k;pack=null;renderGames();renderPacks();summary()}
+$("games").onclick=function(e){var b=e.target.closest(".game");if(b){pick(b.dataset.k);$("rechargePanel").scrollIntoView({behavior:"smooth"})}};
+$("packs").onclick=function(e){var b=e.target.closest(".pack");if(b){pack=+b.dataset.i;renderPacks();summary()}};
+$("pay").onclick=function(e){var b=e.target.closest("button");if(b){pay=b.dataset.p;renderPay();summary()}};
+$("uid").oninput=summary;
+$("buy").onclick=function(){
+ var p=CATALOG[game].packs[pack],m=$("msg");
+ // DEMO ONLY: connect your backend / payment gateway API here (fetch POST to your server).
+ m.className="ok";m.textContent="Order placed: "+p[0]+" for ID "+$("uid").value.trim()+" ("+bdt(p[1])+" via "+pay+"). Demo only — no real payment was made.";
+};
+function support(){window.open(SUPPORT_LINK,"_blank","noopener")}
+$("fab").onclick=support;$("login").onclick=function(){alert("Connect your login system here.")};
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+ document.querySelectorAll("nav button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");
+ var g=b.dataset.go;if(g==="top")window.scrollTo({top:0,behavior:"smooth"});
+ else if(g==="store")$("store").scrollIntoView({behavior:"smooth"});
+ else if(g==="support")support();else alert("Add your tutorial video link here.");
+}});
+pick("FF TopUp (BD)");renderPay();
+</script>
+</body>
+</html>
